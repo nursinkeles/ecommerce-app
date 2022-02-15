@@ -13,3 +13,10 @@ export const fetchProduct = async (id) => {
   );
   return data;
 };
+
+// export const fetchProduct = async (input) => {
+//   const { data } = await axios.post(
+//     "https://jsonplaceholder.typicode.com/posts/auth/register",input
+//   );
+//   return data;
+// };
