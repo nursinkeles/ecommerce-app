@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  Box,
   Flex,
+  Box,
   Heading,
   FormControl,
   FormLabel,
@@ -9,33 +9,38 @@ import {
   Button,
   Alert,
 } from "@chakra-ui/react";
+
 import { useFormik } from "formik";
 import validationSchema from "./validations";
-// import {fetchRegister} from "../../../api"
-// import {useAuth} from "../../../contexts/AuthContext"
-function Signup() {
-  // const {login} = useAuth()
+
+// import { fetchLogin } from "../../../api";
+
+import { useAuth } from "../../../contexts/AuthContext";
+
+function Signup({ history }) {
+  const { login } = useAuth();
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      passwordConfirm: "",
     },
     validationSchema,
     onSubmit: async (values, bag) => {
       try {
-        // const registerResponse = await fetchRegister({
+        // const loginResponse = await fetchLogin({
         //   email: values.email,
         //   password: values.password,
         // });
-        // console.log(registerResponse);
-        // login(registerResponse);
-        console.log(values);
-      } catch (err) {
-        // bag.setErrors({general:err.response.data.message});
+        // login(loginResponse);
+        // history.push("/profile");
+        // console.log(loginResponse);
+      } catch (e) {
+        bag.setErrors({ general: e.response.data.message });
       }
     },
   });
+
   return (
     <div>
       <Flex align="center" width="full" justifyContent="center">
@@ -43,11 +48,11 @@ function Signup() {
           <Box textAlign="center">
             <Heading>Sign Up</Heading>
           </Box>
-          {/* <Box my={5}>
+          <Box my={5}>
             {formik.errors.general && (
               <Alert status="error">{formik.errors.general}</Alert>
             )}
-          </Box> */}
+          </Box>
           <Box my={5} textAlign="left">
             <form onSubmit={formik.handleSubmit}>
               <FormControl>
@@ -60,7 +65,8 @@ function Signup() {
                   isInvalid={formik.touched.email && formik.errors.email}
                 />
               </FormControl>
-              <FormControl>
+
+              <FormControl mt="4">
                 <FormLabel>Password</FormLabel>
                 <Input
                   name="password"
@@ -69,20 +75,6 @@ function Signup() {
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
                   isInvalid={formik.touched.password && formik.errors.password}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password Confirm</FormLabel>
-                <Input
-                  name="passwordConfirm"
-                  type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.passwordConfirm}
-                  isInvalid={
-                    formik.touched.passwordConfirm &&
-                    formik.errors.passwordConfirm
-                  }
                 />
               </FormControl>
               <Button mt="4" width="full" type="submit">
